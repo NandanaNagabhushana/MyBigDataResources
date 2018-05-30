@@ -1,0 +1,5 @@
+# SQOOP NOTES
+--------------
+Connect String
+Password
+List and EVal commands
