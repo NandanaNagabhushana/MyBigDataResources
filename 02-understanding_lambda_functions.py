@@ -94,3 +94,6 @@ lEven = filter(lambda f: True if (f%2 == 0) else False, l)
 ''' # shorter format
 lEven = filter(lambda f: f%2 == 0, l)
 '''
+
+import functools as ft
+sumEvenRange = ft.reduce(lambda x, y: x + y, lSqr)
