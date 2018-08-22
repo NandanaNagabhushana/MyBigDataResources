@@ -90,3 +90,7 @@ l = list(range(1,101))
 
 lEven = filter(lambda f: True if (f%2 == 0) else False, l)
 # invoke : for i in lEven: print(i)
+
+''' # shorter format
+lEven = filter(lambda f: f%2 == 0, l)
+'''
