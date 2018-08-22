@@ -74,4 +74,19 @@ def getEvenCube(n):
 0
 1000
 1728
-'''	
+'''
+
+''' lambda function usage scenario:
+map
+filter
+functools.reduce
+
+functionality on the iterable can be passed into these functions, and can be applied on the collection
+'''
+
+l = list(range(1,101))
+
+# get sum of even numbers
+
+lEven = filter(lambda f: True if (f%2 == 0) else False, l)
+# invoke : for i in lEven: print(i)
