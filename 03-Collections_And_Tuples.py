@@ -168,7 +168,7 @@ print(ordersCountByMonth)
 
 
 #-----------------------------------------------------------------------------------------------------------------------------
-# Exercise 2 
+# Exercise 3 
 # code snippet : 
 # Get those order items where order item subtotal is not equal to order item quantity multiplied by order item product price
 #-----------------------------------------------------------------------------------------------------------------------------
