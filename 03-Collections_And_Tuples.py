@@ -202,3 +202,70 @@ print(len(orderItems))  # 172198
 print(len(mismathSubtotalOrderItems)) # 9763
 
 
+#-----------------------------------------------------------------------------------------------------------------------------
+# Exercise 4 
+# code snippet : 
+# Get all those order details from orders where there are no corresponding order items
+#-----------------------------------------------------------------------------------------------------------------------------
+
+''' my understanding of the problem : get all the orders(order-details) for which there is no reference in ORDER_ITEMS 
+
+ --------------------------------------------------------------------------------------------------------- 
+ sql logic - 
+ # join order_items and orders to find those order_items whose order_id is not present in orders.
+
+ select o.* from orders o
+ where not exists ( select 1 from order_items oi
+                    where o.order_id = oi.order_id)
+                    
+ ---------------------------------------------------------------------------------------------------------                   
+
+ Python colleciton logic on distributed data - 
+ # create a dictionary of {order_id: orderItems_record} type - orderItemsDict
+ # create a dictionary of {order_id: orders_record} type - ordersDict
+ # compare the keys of the two dictionaries and append to a list when there is a mismatch
+
+'''
+def readData(dataPath) :
+    dataFile = open(dataPath)
+    dataStr = dataFile.read()
+    dataList = dataStr.splitlines()
+    return dataList
+
+def createDictForCollectionAndKey(collection,keyIndexPos):
+    '''assumption : specified key at keyIndexPos is the unique key in the collection
+                  : columns are comma seperated'''
+    returnDict = {}
+    for rec in collection:
+        recCols = rec.split(',')
+        recKey = recCols[keyIndexPos]
+        returnDict[recKey] = rec
+    return returnDict
+
+def compareDictsForMismatch(p_dict1,p_dict2):
+    '''format : functionName(child-Dict,parent-Dict)
+       input : 2 dicts for comaprison
+       returns : details of mismatch keys from p_dict2
+       ** returns a list of records from p_dict2 for which there are no associated references in p_dict1'''
+    returnList = list()
+    for key in p_dict2:
+        if key not in p_dict1:
+            returnList.append(p_dict2[key])
+    return returnList
+
+# script to be executed to call the defined functions     
+ordersPath = '/data/retail_db/orders/part-00000'
+orders = readData(ordersPath)
+orderItemsPath = '/data/retail_db/order_items/part-00000'
+orderItems = readData(orderItemsPath)
+
+ordersDict = createDictForCollectionAndKey(orders,0)
+orderItemsDict = createDictForCollectionAndKey(orderItems,1)
+
+mismatchList = compareDictsForMismatch(orderItemsDict,ordersDict)
+
+# validation
+len(mismatchList)  # 11452
+len(orders) # 68883
+
+
