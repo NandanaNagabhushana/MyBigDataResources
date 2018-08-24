@@ -165,3 +165,40 @@ ordersPath = '/data/retail_db/orders/part-00000'
 orders = readData(ordersPath)
 ordersCountByMonth = getOrdersCountByMonth(orders)
 print(ordersCountByMonth)
+
+
+#-----------------------------------------------------------------------------------------------------------------------------
+# Exercise 2 
+# code snippet : 
+# Get those order items where order item subtotal is not equal to order item quantity multiplied by order item product price
+#-----------------------------------------------------------------------------------------------------------------------------
+
+def readData(dataPath) :
+    dataFile = open(dataPath)
+    dataStr = dataFile.read()
+    dataList = dataStr.splitlines()
+    return dataList
+
+# columns in order_items table --> 
+# order_item_id,order_item_order_id,product_id,quantity,sub_total,price
+
+def getMismatchSubtotalOrderItems(p_order_items):
+    mismathSubtotalOrders = list()
+    for orderItem in p_order_items:
+        orderItemColumns = orderItem.split(',')
+        orderComputedPrice = float(orderItemColumns[5])*int(orderItemColumns[3])
+        orderItemSubtotal = float(orderItemColumns[4])
+        if orderComputedPrice != orderItemSubtotal:
+            mismathSubtotalOrders.append(orderItemColumns[1])
+            
+    return mismathSubtotalOrders
+
+# script to be executed to call the defined functions
+orderItemsPath = '/data/retail_db/order_items/part-00000'
+orderItems = readData(orderItemsPath)
+mismathSubtotalOrderItems = getMismatchSubtotalOrderItems(orderItems)
+    
+print(len(orderItems))  # 172198
+print(len(mismathSubtotalOrderItems)) # 9763
+
+
