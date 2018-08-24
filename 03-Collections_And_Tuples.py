@@ -95,3 +95,35 @@ len(dailyRevenue)
 for i in list(dailyRevenue.items())[5:10]:
     print(i)
 
+
+
+#-----------------------------------------------------------------------------------------------------------------------------
+# code snippet : 
+# get count of statuses from orders
+#-----------------------------------------------------------------------------------------------------------------------------
+
+def readData(dataPath) :
+    dataFile = open(dataPath)
+    dataStr = dataFile.read()
+    dataList = dataStr.splitlines()
+    return dataList
+
+def getStatusCountFromOrders(p_orders):
+    orderStatusCountDict = {}
+    for order in p_orders:
+        splitCols = order.split(',')
+        if orderStatusCountDict.get(splitCols[3]):
+            orderStatusCountDict[splitCols[3]] += 1
+        else:
+            orderStatusCountDict[splitCols[3]] = 1
+    return orderStatusCountDict
+
+
+# script to be executed to call the defined functions
+
+ordersPath = '/data/retail_db/orders/part-00000'
+orders = readData(ordersPath)
+orderStatusCount = getStatusCountFromOrders(orders)
+print(orderStatusCount)   
+
+
