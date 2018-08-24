@@ -98,6 +98,7 @@ for i in list(dailyRevenue.items())[5:10]:
 
 
 #-----------------------------------------------------------------------------------------------------------------------------
+# Exercise 1 
 # code snippet : 
 # get count of statuses from orders
 #-----------------------------------------------------------------------------------------------------------------------------
@@ -120,10 +121,47 @@ def getStatusCountFromOrders(p_orders):
 
 
 # script to be executed to call the defined functions
-
 ordersPath = '/data/retail_db/orders/part-00000'
 orders = readData(ordersPath)
 orderStatusCount = getStatusCountFromOrders(orders)
 print(orderStatusCount)   
 
 
+#-----------------------------------------------------------------------------------------------------------------------------
+# Exercise 2 
+# code snippet : get count of orders by month
+#-----------------------------------------------------------------------------------------------------------------------------
+
+def readData(dataPath) :
+    dataFile = open(dataPath)
+    dataStr = dataFile.read()
+    dataList = dataStr.splitlines()
+    return dataList
+
+def getOrdersCountByMonth(p_orders):
+    print('started')
+    monthDict = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'}
+    orderCountByMonthDict = {}
+    returnDict = {}
+    for order in p_orders:
+        monthCol = order.split(',')[1].split(' ')[0].split('-')[1]
+        if orderCountByMonthDict.get(monthCol):
+            orderCountByMonthDict[monthCol] += 1
+        else:
+            orderCountByMonthDict[monthCol] = 1
+    
+    # changing keys of the dictionary to month-names using regular for loop 
+    for (k,v) in orderCountByMonthDict.items():
+        if  (returnDict.get(monthDict.get(k)) == None):
+            returnDict[monthDict[k]] = v
+     
+    # changing keys of the dictionary to month-names using dictionary comprehension    
+    # returnDict = dict((monthDict[key], value) for (key, value) in orderCountByMonthDict.items())   
+        
+    return returnDict
+
+# script to be executed to call the defined functions
+ordersPath = '/data/retail_db/orders/part-00000'
+orders = readData(ordersPath)
+ordersCountByMonth = getOrdersCountByMonth(orders)
+print(ordersCountByMonth)
