@@ -275,5 +275,23 @@ len(orders) # 68883
 # code snippet : 
 # Get all those products whose daily revenue is more than $1000 – we need order_date, product_id and product_revenue
 #-----------------------------------------------------------------------------------------------------------------------------
+'''
+--------------------------------------------------------------------------------------------------------- 
+sql logic - 
 
+select o.order_date,oi.order_item_product_id,sum(oi.order_item_subtotal)
+from orders o, order_items oi
+where o.order_id = oi.order_item_order_id
+group by o.order_date,oi.order_item_product_id
+having sum(oi.order_item_subtotal) > 1000;
+
+3298 rows in set
+ ---------------------------------------------------------------------------------------------------------                   
+ Python colleciton logic on distributed data - 
+
+# create a dict from order_items of the form - { order_id : 'order_id, product_id, product_revenue'}
+ create a dict with order_id : order_date from orders
+ append order date into the first dict
+
+'''
 
